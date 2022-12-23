@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
-import axios from "axios";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.js";
 
 function Login() {
-
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -12,6 +11,8 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const { login } = useContext(AuthContext);
+
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -19,26 +20,39 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, inputs, { withCredentials: true });
-        navigate('/');
+      await login(inputs);
+      navigate("/");
     } catch (err) {
       setError(err.response.data);
     }
   };
 
   return (
-    <div className='auth'>
+    <div className="auth">
       <h1>Login</h1>
       <form>
-        <input required type="text" placeholder='username' name="username" onChange={handleChange} />
-        <input required type="password" placeholder='password' name="password" onChange={handleChange} />
+        <input
+          required
+          type="text"
+          placeholder="username"
+          name="username"
+          onChange={handleChange}
+        />
+        <input
+          required
+          type="password"
+          placeholder="password"
+          name="password"
+          onChange={handleChange}
+        />
         <button onClick={handleSubmit}>Login</button>
         {error && <p>{error}</p>}
-        <span>Don't you have an account? <Link to="/register">Register</Link></span>
+        <span>
+          Don't you have an account? <Link to="/register">Register</Link>
+        </span>
       </form>
-
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

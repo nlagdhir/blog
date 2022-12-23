@@ -1,6 +1,6 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken";
 
 const register = (req, res) => {
   // CHECK FOR EXISTING USER
@@ -25,7 +25,7 @@ const register = (req, res) => {
   });
 };
 
-const login = (req, res) => { 
+const login = (req, res) => {
   // CHECK USER EXISTS
 
   const q = "SELECT * FROM users WHERE username = ?";
@@ -46,19 +46,19 @@ const login = (req, res) => {
     }
 
     const token = jwt.sign({ id: data[0].id }, "jwtkey");
-    const {password, ...rest} = data[0]; 
+    const { password, ...rest } = data[0];
 
-    res.cookie(`Cookie token name`,`encrypted cookie string Value`);
-
-    res.cookie('access_token', token, {
+    res
+      .cookie("access_token", token, {
         httpOnly: true,
-    }).status(200).json(rest); 
-    
+      })
+      .status(200)
+      .json(rest);
   });
 };
 
 const logout = (req, res) => {
-  res.json("logout");
+  res.clearCookie("access_token").status(200).json("User has been logged out!");
 };
 
 export { register, login, logout };

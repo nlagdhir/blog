@@ -9,16 +9,21 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors()); 
+app.use(
+  cors({
+    origin: "http://localhost:3000", 
+    credentials: true, 
+  })
+);
 
-app.use('/api/posts', postRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);  
+app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.listen(8800, ()=> {
-    console.log('Connected');
+app.listen(8800, () => {
+  console.log("Connected");
 });
