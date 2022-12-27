@@ -6,7 +6,6 @@ function Home() {
 
   const [posts, setPosts] = useState([]);
   const cat = useLocation().search;
-  console.log(cat);
 
   useEffect(() => {
     
@@ -66,7 +65,7 @@ function Home() {
                 <h1>{post.title}</h1>
               </Link>
               <p>{post.desc}</p>
-              <button>Read more</button>
+              <Link className="link readmore" to={`/post/${post.id}`}>Read More</Link>
             </div>
           </div>
         ))}

@@ -11,6 +11,21 @@ $lightGreen: #b9e7e7;
       color: inherit;
     }
 
+    .readmore {
+      width: max-content;
+      color: teal;
+      border: 1px solid teal;
+      background-color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $lightGreen;
+        color: black;
+        border: 1px solid white;
+      }
+    }
+
     // LOGIN AND REGISTER PAGE
     .auth {
       display: flex;

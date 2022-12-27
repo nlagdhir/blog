@@ -16,9 +16,10 @@ app.use(
   })
 );
 
-app.use("/api/posts", postRoutes);
+
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
 
 app.get("/", function (req, res) {
   res.send("Hello World");
