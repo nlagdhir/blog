@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 function Home() {
-
   const [posts, setPosts] = useState([]);
   const cat = useLocation().search;
 
   useEffect(() => {
-    
-    const fetchPosts = async() => {
-
+    const fetchPosts = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts${cat}`);
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/posts${cat}`
+        );
         setPosts(res.data);
       } catch (error) {
-          console.log(error)
+        console.log(error);
       }
-      
-    }
+    };
 
     fetchPosts();
-  
-  }, [cat])
-  
+  }, [cat]);
 
   // const posts = [
   //   {
@@ -55,20 +52,27 @@ function Home() {
   return (
     <div className="home">
       <div className="posts">
-        {posts.length > 0 && posts.map((post) => (
-          <div className="post" key={post.id}>
-            <div className="img">
-              <img src={post.img} alt={post.title} />
+        {posts.length > 0 &&
+          posts.map((post) => (
+            <div className="post" key={post.id}>
+              <div className="img">
+                <img src={`../upload/${post.img}`} alt={post.title} />
+              </div>
+              <div className="content">
+                <Link className="link" to={`/post/${post.id}`}>
+                  <h1>{post.title}</h1>
+                </Link>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(post.desc),
+                  }}
+                ></p>
+                <Link className="link readmore" to={`/post/${post.id}`}>
+                  Read More
+                </Link>
+              </div>
             </div>
-            <div className="content">
-              <Link className="link" to={`/post/${post.id}`}>
-                <h1>{post.title}</h1>
-              </Link>
-              <p>{post.desc}</p>
-              <Link className="link readmore" to={`/post/${post.id}`}>Read More</Link>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

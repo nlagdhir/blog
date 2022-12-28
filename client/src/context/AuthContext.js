@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async (inputs) => {
     const res = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/logout`,[], { withCredentials: true }
+      `${process.env.REACT_APP_API_URL}/auth/logout`,{ withCredentials: true }
     );
     setCurrentUser(null);
   };

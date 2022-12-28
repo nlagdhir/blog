@@ -6,6 +6,7 @@ import Delete from "../imgs/delete.png";
 import axios from "axios";
 import moment from "moment";
 import { AuthContext } from "../context/AuthContext";
+import DOMPurify from "dompurify";
 
 function Single() {
   const [post, setPost] = useState({});
@@ -37,14 +38,14 @@ function Single() {
       { withCredentials: true }
     );
 
-    console.log(res.response); 
+    console.log(res.response);
     //navigate('/');
   };
 
   return (
     <div className="single">
       <div className="content">
-        <img src={post.img} alt="post" />
+        <img src={`../upload/${post.img}`} alt="post" />
         <div className="user">
           <img src={post.userImage} alt="user" />
           <div className="info">
@@ -53,7 +54,7 @@ function Single() {
           </div>
           {currentUser.username === post.username && (
             <div className="edit">
-              <Link to={`/write/?edit=2`}>
+              <Link to={`/write/?edit=2`} state={post}>
                 <img src={Edit} alt="edit" />
               </Link>
 
@@ -62,7 +63,11 @@ function Single() {
           )}
         </div>
         <h1>{post?.title}</h1>
-        {post?.desc}
+        <p
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.desc),
+          }}
+        ></p>
       </div>
       <Sidebar cat={post.cat} />
     </div>
